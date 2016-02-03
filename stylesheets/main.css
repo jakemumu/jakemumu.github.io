@@ -8,7 +8,7 @@
 
 
 /* Table of contents
-–––––––––––––––––––––––––––––––––––––––––––––––––– 
+––––––––––––––––––––––––––––––––––––––––––––––––––
 - 1. Common
 - 2. Header
 - 3. Footer
@@ -39,8 +39,8 @@ a{
 a:hover{
   text-decoration:none;
 }
-a:focus { 
-      outline: none; 
+a:focus {
+      outline: none;
 }
 @media (min-width: 1024px) and (max-width: 5000px) {
   .container{
@@ -72,13 +72,13 @@ a:focus {
   display: inline-block;
   padding: 15px 0;
   padding-left: 32px;
-}      
+}
 .headcaps div > span{
   font-size: 32px;
   line-height: 32px;
   letter-spacing: 32px;
   text-transform: uppercase;
-} 
+}
 .promo-inner h6{
   font-size: 16px;
   line-height: 23px;
@@ -141,8 +141,8 @@ a:focus {
 
 
 /*Preloader*/
-html.preloader-running, body.preloader-running{ 
-  overflow: hidden; 
+html.preloader-running, body.preloader-running{
+  overflow: hidden;
 }
 html.preloader-running .sticky-sidebar{
   display: block;
@@ -154,27 +154,27 @@ body.preloader-running #ajax-content{
   opacity: 0;
 }
 
-div#preloader { 
-  background: none repeat scroll 0 0 white; 
-  height: 100%; 
-  left: 240px; 
+div#preloader {
+  background: none repeat scroll 0 0 white;
+  height: 100%;
+  left: 240px;
   position: fixed;
-  top: 0; 
-  width: 100%; 
-  z-index: 99999; 
+  top: 0;
+  width: 100%;
+  z-index: 99999;
 }
 
-#status { 
-  width: 200px; 
-  height: 200px; 
-  position: fixed; 
-  left: 50%; 
-  top: 50%; 
-  background-image: url(../images/loader.gif); 
-  background-repeat: no-repeat; 
-  background-position: center; 
+#status {
+  width: 200px;
+  height: 200px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  background-image: url(../images/loader.gif);
+  background-repeat: no-repeat;
+  background-position: center;
   background-size: 48px 48px;
-  margin: -100px 0 0 -100px; 
+  margin: -100px 0 0 -100px;
 }
 
 /* 2. Header
@@ -438,7 +438,7 @@ footer.mastfoot .row{
 /* 4. Navigation
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 nav.mastnav{
-	margin-top: 40px;
+	margin-top: 20px;
 }
 nav.mastnav ul{
   list-style-type: none;
@@ -610,7 +610,7 @@ nav.mastnav a:focus{
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(255,255,255,0.6) url(../images/loader.gif); 
+  background: rgba(255,255,255,0.6) url(../images/loader.gif);
   background-size: 40px 40px;
   background-position: center center;
   background-repeat: no-repeat;
@@ -724,25 +724,25 @@ nav.mastnav a:focus{
             text-align: left;
             padding: 30px;
         }
-        .works-item-inner h3{ 
+        .works-item-inner h3{
             font-size: 16px;
             letter-spacing: 4px;
             line-height: 23px;
             text-transform: uppercase;
             margin-bottom: 5px;
         }
-        .works-item-inner p{  
+        .works-item-inner p{
         }
-        .works-item-inner p > span{  
+        .works-item-inner p > span{
             font-size: 16px;
             line-height: 23px;
             margin-top: 0px;
         }
-        .works-item a:hover 
-        .works-item-inner h3{ 
+        .works-item a:hover
+        .works-item-inner h3{
         }
-        .works-item a:hover 
-        .works-item-inner p{  
+        .works-item a:hover
+        .works-item-inner p{
         }
 
 .works-item-fade{
@@ -807,8 +807,8 @@ nav.mastnav a:focus{
   width: 23% !important;
 }
 
-    
-/* Portfolio Isotope Transitions */ 
+
+/* Portfolio Isotope Transitions */
 
     .isotope, .isotope .isotope-item {
         -webkit-transition-duration: 0.8s;
@@ -817,7 +817,7 @@ nav.mastnav a:focus{
         -o-transition-duration: 0.8s;
         transition-duration: 0.8s;
     }
-    
+
     .isotope {
         -webkit-transition-property: height, width;
         -moz-transition-property: height, width;
@@ -825,7 +825,7 @@ nav.mastnav a:focus{
         -o-transition-property: height, width;
         transition-property: height, width;
     }
-    
+
     .isotope .isotope-item {
         -webkit-transition-property: -webkit-transform, opacity;
         -moz-transition-property: -moz-transform, opacity;
@@ -833,7 +833,7 @@ nav.mastnav a:focus{
         -o-transition-property: -o-transform, opacity;
         transition-property: transform, opacity;
     }
-    
+
     .isotope.no-transition, .isotope.no-transition .isotope-item, .isotope .isotope-item.no-transition {
         -webkit-transition-duration: 0s;
         -moz-transition-duration: 0s;
@@ -851,13 +851,13 @@ nav.mastnav a:focus{
 .promo h1{
   border: solid 6px #292929;
   padding: 40px;
-}      
+}
 .promo h1 > span{
   font-size: 36px;
   line-height: 72px;
   letter-spacing: 8px;
   text-transform: uppercase;
-} 
+}
 
 .caption h1{
   font-size: 48px;
@@ -865,7 +865,7 @@ nav.mastnav a:focus{
   letter-spacing: 8px;
   text-transform: uppercase;
   margin-bottom: 10px;
-}  
+}
 .caption h3{
   margin-top: 20px;
   font-size: 24px;
@@ -886,7 +886,7 @@ nav.mastnav a:focus{
   width: 80px;
   height: 4px;
   display: inline-block;
-}       
+}
 .services-item i{
   font-size: 48px;
   line-height: 48px;
@@ -896,7 +896,7 @@ nav.mastnav a:focus{
                 -ms-transition: all .4s ease-in-out;
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
-}          
+}
 .services-item:hover i{
   opacity: 0.8;
             -webkit-transition: all .4s ease-in-out;
@@ -904,7 +904,7 @@ nav.mastnav a:focus{
                 -ms-transition: all .4s ease-in-out;
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
-}         
+}
 .services-item h4{
   margin-top: 10px;
   margin-bottom: 15px;
@@ -912,19 +912,19 @@ nav.mastnav a:focus{
   line-height: 23px;
   letter-spacing: 2px;
   text-transform: uppercase;
-} 
+}
 .phrase-carousel-item{
   text-align: center;
   padding: 0 30px;
-}   
+}
 .testimonial-thumb{
   max-width: 100px;
   display: inline-block !important;
-}   
+}
 .team-item{
   text-align: center;
   padding: 0 20px;
-}        
+}
 .team-item h4{
   margin-top: 0px;
   padding-top: 10px;
@@ -932,14 +932,14 @@ nav.mastnav a:focus{
   line-height: 23px;
   letter-spacing: 2px;
   text-transform: uppercase;
-}          
+}
 .team-item img{
             -webkit-transition: all .4s ease-in-out;
                -moz-transition: all .4s ease-in-out;
                 -ms-transition: all .4s ease-in-out;
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
-}                    
+}
 .team-item:hover img{
   opacity: 0.3;
   border: solid 8px #000;
@@ -948,12 +948,12 @@ nav.mastnav a:focus{
                 -ms-transition: all .4s ease-in-out;
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
-}        
+}
 .team-item h6{
   font-size: 16px;
   line-height: 23px;
   padding-bottom: 10px;
-}   
+}
 .team-overlay{
   display: none;
   padding: 30px;
@@ -973,7 +973,7 @@ nav.mastnav a:focus{
                 -ms-transition: all .4s ease-in-out;
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
-} 
+}
 .team-overlay ul{
   list-style: none;
   padding: 0;
@@ -1010,12 +1010,12 @@ nav.mastnav a:focus{
   letter-spacing: 8px;
   text-transform: uppercase;
   margin-bottom: 0px;
-}  
+}
 .news h4{
   font-size: 16px;
   line-height: 23px;
   margin-bottom: 10px;
-}  
+}
 .news a{
   display: block;
   margin: 0px;
@@ -1031,7 +1031,7 @@ nav.mastnav a:focus{
                 -ms-transition: all .4s ease-in-out;
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
-} 
+}
 .news a:hover{
   border: solid 6px;
             -webkit-transition: all .4s ease-in-out;
@@ -1049,7 +1049,7 @@ nav.mastnav a:focus{
   letter-spacing: 8px;
   text-transform: uppercase;
   margin-bottom: 0px;
-}  
+}
 .news-post h5{
   font-size: 16px;
   line-height: 23px;
@@ -1057,23 +1057,23 @@ nav.mastnav a:focus{
 }
 .news-sidebar{
   padding: 0 20px;
-}  
+}
 .news-sidebar h3{
   font-size: 16px;
   line-height: 23px;
   letter-spacing: 2px;
   text-transform: uppercase;
-}  
+}
 .news-sidebar ul{
   list-style: none;
   padding: 0;
   margin-top: 10px;
   margin-bottom: 60px;
-}   
+}
 .news-sidebar ul li{
   border-bottom: solid 1px;
   padding: 5px 0;
-}  
+}
 .news-sidebar .post-tags a{
   margin: 5px;
   display: inline-block;
@@ -1118,7 +1118,7 @@ nav.mastnav a:focus{
     margin-top: 10px;
     text-transform: uppercase;
     padding: 10px 0;
-} 
+}
 
 /*CONTACT*/
 #googlemaps
@@ -1147,7 +1147,7 @@ nav.mastnav a:focus{
   letter-spacing: 8px;
   text-transform: uppercase;
   margin-bottom: 0px;
-}  
+}
 .contact-box h5{
   font-size: 24px;
   line-height: 31px;
@@ -1319,7 +1319,7 @@ fieldset h1 {
   margin-bottom: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
-}  
+}
 .project-nav-icon-wrap{
   list-style-type: none;
   padding: 0;
@@ -1346,82 +1346,82 @@ fieldset h1 {
     .pricing_table {
       padding: 0;
       margin: 0;
-      line-height: 150%; 
-      font-size: 12px; 
+      line-height: 150%;
+      font-size: 12px;
       padding-top: 10px;
     }
-    
+
     .price_block {
-      text-align: center; 
-      width: 100%; 
-      color: #fff; 
-      float: left; 
-      list-style-type: none; 
-      transition: all 0.25s; 
-      position: relative; 
+      text-align: center;
+      width: 100%;
+      color: #fff;
+      float: left;
+      list-style-type: none;
+      transition: all 0.25s;
+      position: relative;
       box-sizing: border-box;
-      
-      margin-bottom: 10px; 
-      border-bottom: 1px solid transparent; 
+
+      margin-bottom: 10px;
+      border-bottom: 1px solid transparent;
     }
-    
+
     /*Price heads*/
     .pricing_table h3 {
-      text-transform: uppercase; 
-      padding: 5px 0; 
+      text-transform: uppercase;
+      padding: 5px 0;
       margin: 10px 0 1px 0;
       font-size: 14px;
       line-height: 21px;
       text-transform: uppercase;
       letter-spacing: 2px;
     }
-    
+
     /*Price tags*/
     .price {
-      display: table; 
-      width: 100%; 
-      height: 90px; 
+      display: table;
+      width: 100%;
+      height: 90px;
     }
     .price_figure {
-      font-size: 24px; 
-      text-transform: uppercase; 
-      vertical-align: middle; 
+      font-size: 24px;
+      text-transform: uppercase;
+      vertical-align: middle;
       display: table-cell;
     }
     .price_number {
-      font-weight: bold; 
+      font-weight: bold;
       display: block;
     }
     .price_tenure {
-      font-size: 11px; 
+      font-size: 11px;
     }
-    
+
     /*Features*/
     .features {
       padding: 0;
       margin: 0;
-      background: #DEF0F4; 
+      background: #DEF0F4;
       color: #000;
     }
     .features li {
       padding: 12px 15px;
-      border-bottom: 1px solid #ccc; 
-      font-size: 11px; 
+      border-bottom: 1px solid #ccc;
+      font-size: 11px;
       list-style-type: none;
     }
-    
+
     .price-footer {
-      padding: 35px 15px; 
+      padding: 35px 15px;
       background: #DEF0F4;
     }
     .action_button {
-      text-decoration: none; 
-      color: #fff; 
-      font-weight: bold; 
-      border-radius: 5px; 
-      background: linear-gradient(#666, #333); 
-      padding: 5px 20px; 
-      font-size: 11px; 
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 5px;
+      background: linear-gradient(#666, #333);
+      padding: 5px 20px;
+      font-size: 11px;
       text-transform: uppercase;
     }
     .price_block{
@@ -1431,30 +1431,30 @@ fieldset h1 {
       border: solid 2px #121212;
     }
     .price_block:hover {
-      transform: scale(1.04) translateY(-5px); 
-      z-index: 1; 
+      transform: scale(1.04) translateY(-5px);
+      z-index: 1;
       border-bottom: 0 none;
     }
     .price_block:hover .action_button {
-      background: linear-gradient(#F9B84A, #DB7224); 
+      background: linear-gradient(#F9B84A, #DB7224);
     }
-    
-    
+
+
     @media only screen and (min-width : 480px) and (max-width : 992px) {
       .price_block {width: 50%;}
       .price_block:nth-child(odd) {border-right: 1px solid transparent;}
       .price_block:nth-child(3) {clear: both;}
-      
+
       .price_block:nth-child(odd):hover {border: 0 none;}
     }
     @media only screen and (min-width : 992px){
       .price_block {width: 25%;}
       .price_block {border-right: 1px solid transparent; border-bottom: 0 none;}
       .price_block:last-child {border-right: 0 none;}
-      
+
       .price_block:hover {border: 0 none;}
     }
-    
+
 
 
 /* 6. Utilities
@@ -1561,5 +1561,3 @@ fieldset h1 {
 	background:url(../images/poster.jpg) center center no-repeat !important;
 	background-size: cover !important;
 }
-
-
