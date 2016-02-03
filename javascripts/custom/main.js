@@ -9,7 +9,7 @@
 
 
 $(function ($) {
-  
+
 
 preloaderInit();
 initCalc();
@@ -85,7 +85,7 @@ $('a.ajax-link').on('click', function() {
 
 
 
-function backLoading() {  
+function backLoading() {
     //this enables users go back to previous page
     $(window).on("popstate", function () {
         $('body').fadeOut('slow',function(){
@@ -93,7 +93,7 @@ function backLoading() {
         });
         $('body').fadeIn();
     });
-}    
+}
 
 function preloaderInit() {
     showPreloader();
@@ -164,8 +164,8 @@ function initCalc() {
 function initUX() {
         $(document).ready(function() {
 
-           
-            
+
+
             $("html,body").animate({scrollTop: 0}, 1000);
              //Displaying UI elements according to the availability of ajax loaded components
             $('.works-filter-trigger').fadeOut();
@@ -485,21 +485,21 @@ function initBGVimeo() {
                         $('body').add('#okplayer-mask');
                       //shows BG video only if .intro03 div is present
                         if( !device.tablet() && !device.mobile() ) {
-                        /* plays the BG Vimeo or Youtube video if non-mobile device is detected*/ 
+                        /* plays the BG Vimeo or Youtube video if non-mobile device is detected*/
                         $("body").okvideo({ source: '112539263', //set your video source here
                                         autoplay:true,
                                         loop: true,
                                         highdef:true,
-                                        hd:true, 
+                                        hd:true,
                                         adproof: true,
                                         volume:50 // control the video volume by setting a value from 0 to 99
                                      });
-                                    
+
                         } else {
-                            
-                            /* displays a poster image if mobile device is detected*/ 
+
+                            /* displays a poster image if mobile device is detected*/
                             $('body, .mastwrap').addClass('poster-img');
-                            
+
                         }
                         // inner if loop ends
                 }
@@ -577,7 +577,7 @@ function initOwlCarousel() {
             }
 
 
-            
+
 
              if ( $(".project-carousel-wrap").length ) {
                 $(".project-carousel").owlCarousel({
@@ -607,7 +607,7 @@ function initOwlCarousel() {
 
 function initElements() {
         $(document).ready(function() {
-           
+
 
                 $(".dropdown").on("hover", function(e) {
                     if (e.type == "mouseenter") {
@@ -616,7 +616,7 @@ function initElements() {
                     }
                     else { // mouseleave
                         $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
-                        $(this).toggleClass('open'); 
+                        $(this).toggleClass('open');
                     }
                 });
 
@@ -632,13 +632,13 @@ function initElements() {
                   next.children(':first-child').clone().appendTo($(this));
 
                   if (next.next().length>0) {
-                 
+
                       next.next().children(':first-child').clone().appendTo($(this)).addClass('rightest');
-                      
+
                   }
                   else {
                       $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-                     
+
                   }
                 });
 
@@ -654,7 +654,7 @@ function initElements() {
                 }, { offset: '35%' });
 
 
-                
+
 
                 //counter init
                   $('.elements-counter-wrap').waypoint(function() {
@@ -681,11 +681,11 @@ function initElements() {
 
 
 function initMap() {
-       
+
             if ( $( "#googlemaps" ).length ) {
 
             }
-                 
+
 
 
 }
@@ -695,7 +695,7 @@ function initContactForm() {
         $(document).ready(function() {
             //CONTACT FORM VALIDATION
 
-            // hide messages 
+            // hide messages
             $(".error").hide();
             $(".success").hide();
 
@@ -771,6 +771,3 @@ function initContactForm() {
 
 })();
 //  global wrapper $(function ($)  : ends
-
-
-
