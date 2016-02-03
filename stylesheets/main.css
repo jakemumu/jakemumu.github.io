@@ -48,7 +48,7 @@ a:focus {
   }
 }
 .welcome-heading h1 span{
-     font-size: 32px;
+    font-size: 32px;
     letter-spacing: 8px;
     line-height: 64px;
     text-transform: uppercase;
@@ -1524,6 +1524,14 @@ fieldset h1 {
 .valign{
 	position: relative;
   	top: 50%;
+  	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	-o-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+.valign-custom{
+	position: relative;
+  	top: 8%;
   	-webkit-transform: translateY(-50%);
   	-ms-transform: translateY(-50%);
   	-o-transform: translateY(-50%);
