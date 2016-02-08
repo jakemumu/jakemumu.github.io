@@ -47,7 +47,7 @@ Image credits: unsplash.com
               transform: translate3d(-50%,-50%,0);
 }
 .hero h1 {
-    font-size: 2em;    
+    font-size: 2em;
     font-weight: normal;
     margin: 0;
     padding: 0;
@@ -57,18 +57,18 @@ Image credits: unsplash.com
 .fade-carousel .carousel-inner .item .hero {
     opacity: 0;
     -webkit-transition: 2s all ease-in-out .1s;
-       -moz-transition: 2s all ease-in-out .1s; 
-        -ms-transition: 2s all ease-in-out .1s; 
-         -o-transition: 2s all ease-in-out .1s; 
-            transition: 2s all ease-in-out .1s; 
+       -moz-transition: 2s all ease-in-out .1s;
+        -ms-transition: 2s all ease-in-out .1s;
+         -o-transition: 2s all ease-in-out .1s;
+            transition: 2s all ease-in-out .1s;
 }
 .fade-carousel .carousel-inner .item.active .hero {
     opacity: 1;
     -webkit-transition: 2s all ease-in-out .1s;
-       -moz-transition: 2s all ease-in-out .1s; 
-        -ms-transition: 2s all ease-in-out .1s; 
-         -o-transition: 2s all ease-in-out .1s; 
-            transition: 2s all ease-in-out .1s;    
+       -moz-transition: 2s all ease-in-out .1s;
+        -ms-transition: 2s all ease-in-out .1s;
+         -o-transition: 2s all ease-in-out .1s;
+            transition: 2s all ease-in-out .1s;
 }
 
 /********************************/
@@ -107,23 +107,23 @@ Image credits: unsplash.com
   background-repeat: no-repeat;
 }
 .fade-carousel .slide-1 {
-  background-image: url('../images/bg/01.jpg'); 
+  background-image: url('../images/bg/01.jpg');
 }
 .fade-carousel .slide-2 {
-  background-image: url('../images/bg/02.jpg'); 
+  background-image: url('../images/bg/02.jpg');
 }
 .fade-carousel .slide-3 {
-  background-image: url('../images/bg/03.jpg'); 
+  background-image: url('../images/bg/03.jpg');
 }
 
 /********************************/
 /*          Media Queries       */
 /********************************/
 @media screen and (min-width: 980px){
-    .hero { width: 980px; }    
+    .hero { width: 980px; }
 }
 @media screen and (max-width: 640px){
-    .hero h1 { font-size: 4em; }    
+    .hero h1 { font-size: 4em; }
 }
 
 
@@ -222,8 +222,8 @@ Licensed under MIT
 
 
 
-/* Number Counters */   
-  
+/* Number Counters */
+
   .elements-counter-wrap {
     opacity: 0;
     display: table;
@@ -238,7 +238,7 @@ Licensed under MIT
          -o-transition: all .8s linear;
             transition: all .8s linear;
   }
-  
+
   .elements-counter {
     text-align: center;
     list-style:none;
@@ -250,25 +250,25 @@ Licensed under MIT
     width:25%;
     display:table-cell;
   }
-  
+
   .elements-counter:last-child {
     border-right:none;
   }
-  
+
   .elements-counter .number {
     display: block;
     font-size: 64px;
-    
+
     line-height: 64px;
     margin-bottom: 5px;
   }
-  
+
   .elements-counter .subject {
     font-weight:400;
     font-size:16px;
     letter-spacing:1px;
   }
-  
+
 
 
 /*
@@ -278,11 +278,11 @@ Images by Nike.com (http://www.nike.com/us/en_us/)
 Logo by Sneaker-mission.com (http://www.sneaker-mission.com/)
 */
 
-.navbar-brand { 
+.navbar-brand {
   width: 70px;
   height: 50px;
   background: url('../images/logo-dark.png') no-repeat center center;
-  background-size: 50px;  
+  background-size: 50px;
 }
 
 .nav-tabs {
@@ -291,10 +291,10 @@ Logo by Sneaker-mission.com (http://www.sneaker-mission.com/)
   padding-top: 15px;
   font-weight: bold;
 }
-.nav-tabs > li > a, 
-.nav-tabs > li > a:hover, 
-.nav-tabs > li > a:focus, 
-.nav-tabs > li.active > a, 
+.nav-tabs > li > a,
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus,
+.nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   border: none;
@@ -302,9 +302,9 @@ Logo by Sneaker-mission.com (http://www.sneaker-mission.com/)
 }
 
 .nav-list { border-bottom: 1px solid #eee; }
-.nav-list > li { 
+.nav-list > li {
   padding: 20px 15px 15px;
-  border-left: 1px solid #eee; 
+  border-left: 1px solid #eee;
 }
 .nav-list > li:last-child { border-right: 1px solid #eee; }
 .nav-list > li > a:hover { text-decoration: none; }
@@ -352,7 +352,7 @@ Logo by Sneaker-mission.com (http://www.sneaker-mission.com/)
         text-align: center;
         background-color: #eee;
     }
-    .navbar>.container .navbar-brand-centered, 
+    .navbar>.container .navbar-brand-centered,
     .navbar>.container-fluid .navbar-brand-centered {
         margin-left: -80px;
     }

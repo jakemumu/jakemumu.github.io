@@ -438,7 +438,7 @@ footer.mastfoot .row{
 /* 4. Navigation
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 nav.mastnav{
-	margin-top: 20px;
+	margin-top: 70px;
 }
 nav.mastnav ul{
   list-style-type: none;
@@ -1523,7 +1523,7 @@ fieldset h1 {
 }
 .valign{
 	position: relative;
-  	top: 50%;
+  	top: 40%;
   	-webkit-transform: translateY(-50%);
   	-ms-transform: translateY(-50%);
   	-o-transform: translateY(-50%);
@@ -1568,4 +1568,9 @@ fieldset h1 {
 .poster-img{
 	background:url(../images/poster.jpg) center center no-repeat !important;
 	background-size: cover !important;
+}
+
+.derp {
+  display: block;
+  margin: 0 auto;
 }
