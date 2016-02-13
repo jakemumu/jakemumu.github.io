@@ -1,0 +1,49 @@
+/*--------------------------------------------------------------------------*/
+/*This is main CSS file that intializes BG Images used in this template*/
+/*--------------------------------------------------------------------------*/
+.intro-05-item-01{
+	background-image: url('../images/agency/01.jpg');
+}
+.intro-05-item-02{
+	background-image: url('../images/agency/02.jpg');
+}
+.intro-05-item-03{
+	background-image: url('../images/agency/03.jpg');
+}
+.intro-05-item-04{
+	background-image: url('../images/agency/04.jpg');
+}
+.intro-05-item-05{
+	background-image: url('../images/agency/05.jpg');
+}
+.intro-06{
+	background-image: url('../images/bg/12.jpg');
+}
+.about-bg{
+	background-image: url('../images/bg/15.jpg');
+}
+.promo{
+	background-image: url('../images/bg/12.jpg');
+}
+.project-01-carousel-item-01{
+	background-image: url('../images/project/project01/01.jpg');
+}
+.project-01-carousel-item-02{
+	background-image: url('../images/project/project01/02.jpg');
+}
+.project-01-carousel-item-03{
+	background-image: url('../images/project/project01/03.jpg');
+}
+.project-02-carousel-item-01{
+	background-image: url('../images/project/project02/01.jpg');
+}
+.project-02-carousel-item-02{
+	background-image: url('../images/project/project02/02.jpg');
+}
+.project-02-carousel-item-03{
+	background-image: url('../images/project/project02/03.jpg');
+}
+/*Mobile Menu Logo*/
+.menu-collapser {
+    background-image: url('../images/logo.png');
+}
