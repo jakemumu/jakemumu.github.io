@@ -126,36 +126,61 @@
 
       <div class="page-content">
         <div class="wrapper">
-          <section class="intro intro-02 backstretch-wrap fullheight">
-  <div class="fullheight">
+          <section class="sub-wrap add-top-half add-bottom-half">
+    <div class="container">
+      <div class="row">
+        <article class="col-md-12">
+            <div id="googlemaps" class="halfheight">
+             <iframe frameborder="0" style="border:0"
+src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d48375.48292568715!2d-73.993474!3d40.72973349999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1sbrooklyn!5e0!3m2!1sen!2sin!4v1427533112099">
+</iframe></div>
+        </article>
+      </div>
+      <div class="row">
+        <article class="col-md-6 text-left contact-box add-top-half">
+            <h1 class="font2 dark">otto studio, 23/C, Quartz avenue, nyc</h1>
+            <div class="liner color-bg"></div>
+            <h5><a class="font4 grey" href="#">hello@otto.tld</a></h5>
 
-    <div class="slideshow-caption-wrap white-bg dark text-right">
-      <ul class="slideshow-count">
-        <li class="font2 count-current">1</li>
-        <li class="font2 count-total">2</li>
-      </ul>
-      <div class="font2 slideshow-caption"></div>
+            <div class="form-wrapper">
+               <div id="contact-form-wrap">
+              <div class="contact-item pad-common ">
+                <div class="alert alert-error error color-bg " id="fname">
+                  <p class="white">Name must not be empty</p>
+                </div>
+                <div class="alert alert-error  error color-bg" id="fmail">
+                  <p class="white">Please provide a valid email</p>
+                </div>
+                 <div class="alert alert-error  error color-bg" id="fmsg">
+                   <p class="white">Message should not be empty</p>
+                 </div>
+                  <form name="myform" id="contactForm" action="sendcontact.php" enctype="multipart/form-data" method="post">
+                    <article>
+                      <input type="text" placeholder="Your Name" id="name" name="name" size="100" class="border-form font2">
+                    </article>
+                    <article>
+                       <input type="text" placeholder="Valid email ID" name="email" id="email" size="30" class="border-form font2">
+                     </article>
+                     <article>
+                      <textarea placeholder="Your Message" name="message" cols="40" rows="8" id="msg" class="border-form font2"></textarea>
+                      <div class="add-top-quarter  text-left">
+                        <button class="btn btn-otto btn-otto-color" id="submit" name="submit" type="submit">Send Message</button>
+                      </div>
+                    </article>
+                 </form>
+              </div>
+        </div>
+
+            </div>
+            <!-- form-wrapper:ends -->
+
+
+
+        </article>
+
+
+      </div>
     </div>
-
-    <div class="slideshow-control-wrap white-bg dark text-right">
-      <ul>
-        <li><a class="slide-prev" href="#"><span class="ion-ios-arrow-back black"></span></a></li>
-        <li><a class="slide-pause" href="#"><span class="ion-ios-pause black"></span></a></li>
-        <li><a class="slide-next" href="#"><span class="ion-ios-arrow-forward black"></span></a></li>
-      </ul>
-    </div>
-
-    <div class="slideshow-status">
-    </div>
-
-    <div class="slideshow-content hidden">
-      <img alt="" title="AudioVisual Programming" class="slideshow-slide slide01" src="images/slideshow/01.jpg"/>
-      <img alt="" title="AudioVisual Programming" class="slideshow-slide slide02" src="images/slideshow/02.jpg"/>
-      <img alt="" title="Physical Computing" class="slideshow-slide slide03" src="images/slideshow/03.jpg"/>
-    </div>
-
-  </div>
-
 </section>
 
         </div>
