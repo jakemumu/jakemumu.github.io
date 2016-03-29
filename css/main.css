@@ -679,7 +679,7 @@ nav.mastnav a:focus{
 }
 
  .works-item a{
-       	border: solid 6px;
+       	/*border: solid 6px;*/
             opacity: 0;
             display: block;
             width: 100%;
@@ -697,7 +697,7 @@ nav.mastnav a:focus{
         }
         .works-item a:hover{
             text-decoration: none !important;
-       	background: rgba(255,255,255,0.9);
+       	background: rgba(40,40,40,0.5);
             opacity:1;
             -webkit-transition: all .4s ease-in-out;
                -moz-transition: all .4s ease-in-out;
