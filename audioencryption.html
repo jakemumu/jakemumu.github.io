@@ -55,25 +55,29 @@ layout: default
   <div class="container">
     <div class="row">
       <article class="col-md-4 text-left caption">
-        <h2 class="project-title font2 dark">Digital Rain</h2>
+        <h2 class="project-title font2 dark">Audio Encryption</h2>
         <div class="liner color-bg"></div>
         <h3 class="font4 grey remove-top">Spring 2015</h3>
       </article>
       <article class="col-md-8 text-left">
         <h4 class="font2 dark">About this project</h4>
         <p class="font4 add-bottom-quarter"> The twitter audio encryption algorithm was a piece of experimental code
-          developed for the 2015 CalArts Digital Arts Expo. It was around the time of Sony being hacked for producing
-          an anti North Korean comedy film.
+          developed for the 2015 CalArts Digital Arts Expo. It was partially inspired by the <a target="blank" href="https://en.wikipedia.org/wiki/Sony_Pictures_Entertainment_hack">
+          Sony Pictures Entertainment hack</a>, and was an exploration into data and cyber security, a sort of modern morse code.
           <br/><br/>
-          Cyber security is an important part of our society. For this project i designed a sender and receiver algoritm.
-          The sender pull tweets pertaining to a keyword off of twitter and converts these messages into OSC. OSC is sent to
-          the chuck programming language, which converts the OSC message into a fast series of sine wave blips.
+          This project utilizes a sender and receiver algoritm.
+          The sender accesses tweets based on a hashtag from twitter, and converts them into OSC. The OSC messages are sent to
+          a <a target="blank" href="http://chuck.cs.princeton.edu/">chuck</a> application, which converts the message into a fast series of sine blips, played
+          through a speaker system.
           <br/><br/>
-          The receiver algorithm listened to sound waves in the air and attempts to convert frequencies into text, if there is little
-          audio disruption between the sender and receiver, a participant can post a tweet with a keyword, and watch their tweet be
-          converted into audio, played across the room, and reconverted back into text through FFT.
+          The receiver algorithm listens to sound waves through a microphone, and attempts to convert frequencies into text. If a transmitter is using the related encryption,
+          the application is able to precisely translate the fast tones back into text.
+          <br/><br/>
+          Viewers of the installation were able to post tweets related to the Digital Arts Expo, the installation would then immediately convert their tweets to text and play it across
+          the room, which would then be reconverted back to text. Not only was this fun for the viewer but it also sonified
+          any tweets related to the expo, giving a sort of live activity stream.
           </p>
-        <a target="blank" href="#" class="btn btn-otto btn-otto-color">Code</a>
+        <!-- <a target="blank" href="#" class="btn btn-otto btn-otto-color">Code</a> -->
       </article>
     </div>
 
