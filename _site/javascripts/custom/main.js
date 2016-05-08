@@ -152,6 +152,7 @@ function initCalc() {
             $('.fullheight').css('height', vH);
             $('.halfwidth').css('width', vW / 2);
             $('.halfheight').css('height', vH / 2);
+            $('.quarterheight').css('height', vH / 4);
             $('.works-container').css('min-height', vH);
         });
         // ready: ends
