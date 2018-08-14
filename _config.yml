@@ -12,7 +12,7 @@ description: > # this means to ignore newlines until "baseurl:"
   Jacob Penn's Portfolio Website. Music Technology Art DSP Granular Experimental Mumukshu Output
   Here They Lie Tangentlemen
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://jakemumu.github.io/" # the base hostname & protocol for your site
+url: "https://jakemumu.github.io/" # the base hostname & protocol for your site
 twitter_username: MumukshuAudio
 github_username:  jakemumu
 

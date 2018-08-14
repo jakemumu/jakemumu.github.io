@@ -4,7 +4,7 @@ window.JSON||(window.JSON={}),function(){function f(a){return a<10?"0"+a:a}funct
 
 //	HISTORICIZE AND AJAXIFY OUR SITE
 jQuery(document).ready(function() {
-	var siteUrl = 'http://'+(document.location.hostname||document.location.host);
+	var siteUrl = 'https://'+(document.location.hostname||document.location.host);
 
 	//	Catch all internally-focused links and push a new state.
 	//	Note: External links will not be affected by this behavior.
