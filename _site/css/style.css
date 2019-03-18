@@ -1,0 +1,24 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:100,300);
+body {
+  background-color: #222;
+  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzExMTExMSIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjMjIyMjIyIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMTExMTExIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
+  background-size: 100%;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #111111), color-stop(50%, #222222), color-stop(100%, #111111));
+  background-image: -moz-linear-gradient(top, #111111 0%, #222222 50%, #111111 100%);
+  background-image: -webkit-linear-gradient(top, #111111 0%, #222222 50%, #111111 100%);
+  background-image: linear-gradient(to bottom, #111111 0%, #222222 50%, #111111 100%);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 100;
+  color: rgba(255, 255, 255, 0.5);
+  height: 100vh;
+  width: 100vw;
+}
+
+#title {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  z-index: 100;
+}

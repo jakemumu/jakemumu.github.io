@@ -1,0 +1,201 @@
+/* Media Queries
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+/*
+Note: The best way to structure the use of media queries is to create the queries 
+near the relevant code. For example, if you wanted to change the styles for buttons
+on small devices, paste the mobile query code up in the buttons section and style it 
+there. 
+*/
+
+
+
+/* Larger than Desktop HD */
+@media (max-width: 1200px) {
+  .container{
+    max-width: 700px;
+  }
+}
+
+/* Larger than desktop */
+@media (max-width: 992px) {
+  .container{
+    max-width: 500px;
+  }
+  .text-left, .text-right{
+    text-align: center;
+  }
+  .img-responsive{
+    display: inline-block;
+  }
+}
+
+/* Larger than tablet */
+@media (max-width: 768px) {
+  .container{
+    width: 668px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+  .text-left, .text-right, .mastfoot, .credits, .services-item{
+    text-align: center;
+  }
+  .img-responsive{
+    display: inline-block;
+  }
+  .mobile-nav{
+    display: block;
+  }
+  .masthead, .sticky-sidebar, .share-panel, .featured-panel{
+    display: none;
+  }
+  div#preloader{
+    left: 0;
+  }
+  .mastwrap.spaced-left{
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .mastwrap{
+    margin-top: 50px;
+  }
+  .works-masonry-container .works-item, .works-masonry-container .works-item-one-third, 
+  .works-masonry-container .works-item-two-third, .works-masonry-container .works-item-one-half,
+  .works-masonry-container .works-item-one-fourth{
+    width: 50% !important;
+  }
+  .works-masonry-container .works-item-spaced, .works-masonry-container .works-item-one-third-spaced, 
+  .works-masonry-container .works-item-two-third-spaced, .works-masonry-container .works-item-one-half-spaced,
+  .works-masonry-container .works-item-one-fourth-spaced{
+    width: 48% !important;
+    margin: 1% !important;
+  }
+  .works-masonry-container .works-item-full-width, .works-masonry-container .works-item-full-width-spaced{
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  .slideshow-count{
+    left: 10px;
+  }
+  .project-info h4, .news-sidebar h3{
+    margin-top: 25px;
+  }
+  .caption h1, .elements-counter .number{
+    font-size: 32px;
+    line-height: 39px;
+  }
+  .caption h3, .services-item{
+    margin-bottom: 25px;
+  }
+
+}
+
+/*iPhone 6Plus Landscape Mode*/
+@media screen and (max-width: 736px) {
+  .container{
+    width: 636px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+
+/*iPhone 6 Landscape Mode*/
+@media screen and (max-width: 667px) {
+  .container{
+    width: 567px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+
+/*Google Nexus and Other Large Smart Phones v1*/
+@media screen and (max-width: 600px) {
+  .container{
+    width: 500px;
+    padding-left: 50px;
+    padding-right: 50px;
+  }
+}
+
+/*iPhone Landscape Mode and Mediium Smart Phones*/
+@media screen and (max-width: 480px) {
+  .container{
+    width: 400px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .works-masonry-container .works-item, .works-masonry-container .works-item-one-third, 
+  .works-masonry-container .works-item-two-third, .works-masonry-container .works-item-one-half,
+  .works-masonry-container .works-item-one-fourth{
+    width: 100% !important;
+  }
+  .works-masonry-container .works-item-spaced, .works-masonry-container .works-item-one-third-spaced, 
+  .works-masonry-container .works-item-two-third-spaced, .works-masonry-container .works-item-one-half-spaced,
+  .works-masonry-container .works-item-one-fourth-spaced{
+    width: 98% !important;
+    margin: 1% !important;
+  }
+  .main-heading > span{
+    font-size: 24px;
+    line-height: 31px;
+  } 
+  .welcome-heading h1 span, .caption h1, .caption h3, .news-post h1{
+    font-size: 18px;
+    line-height: 25px;
+  }
+  .welcome-heading h1 span, .caption h1{
+    padding: 10px 10px 10px 14px;
+  }
+  ul.slimmenu.collapsed li .sub-collapser, ul.slimmenu > li > a:first-child{
+    font-size: 16px;
+    line-height: 23px;
+    padding: 3px 0;
+  }
+  ul.slimmenu{
+    padding: 25px 25px 50px;
+  }
+  ul.slimmenu li a{
+    padding: 3px 0;
+  }
+  .elements-counter{
+    width: 100%;
+    display: block;
+    margin-bottom: 25px;
+  }
+  .elements-counter .number{
+    font-size: 48px;
+    line-height: 55px;
+  }
+  .works-item-inner h3{
+    font-size: 14px;
+    line-height: 21px;
+  }
+}
+
+/*iPhone 6Plus Portrait Mode*/
+@media screen and (max-width: 414px) {
+  .container{
+    width: 374px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/*iPhone 6 Portrait Mode*/
+@media screen and (max-width: 375px) {
+  .container{
+    width: 335px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/*iPhone 5S, 5, 4S & 4 Portrait Mode and Very Small Mobile Phones*/
+@media screen and (max-width: 320px) {
+  .container{
+    width: 300px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
