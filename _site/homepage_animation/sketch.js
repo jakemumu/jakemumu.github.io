@@ -98,7 +98,7 @@ function draw() {
             xPos += (x_sine_outputs[column][row] * (column_offset/2.0)) * 0.95;
             yPos += (y_sine_outputs[column][row] * (row_offset/2.0))  * 0.95;
 
-            strokeWeight(2);
+            strokeWeight(1);
 
             line(positions[column][row].x, 
                 positions[column][row].y, 
