@@ -156,7 +156,7 @@ new SineWaveGenerator({
       lineWidth: 3,
       amplitude: 150,
       wavelength: 200,
-      segmentLength: 20,
+      segmentLength: 30
 //       strokeStyle: 'rgba(255, 255, 255, 0.5)'
     },
     {
@@ -164,24 +164,25 @@ new SineWaveGenerator({
       lineWidth: 2,
       amplitude: 150,
       wavelength: 100,
+      segmentLength: 30
 //       strokeStyle: 'rgba(255, 255, 255, 0.3)'
-    },
-    {
-      timeModifier: 1,
-      lineWidth: 1,
-      amplitude: -150,
-      wavelength: 50,
-      segmentLength: 10,
-//       strokeStyle: 'rgba(255, 255, 255, 0.2)'
-    },
-    {
-      timeModifier: 1,
-      lineWidth: 0.5,
-      amplitude: -100,
-      wavelength: 100,
-      segmentLength: 10,
-//       strokeStyle: 'rgba(255, 255, 255, 0.1)'
     }
+//     {
+//       timeModifier: 1,
+//       lineWidth: 1,
+//       amplitude: -150,
+//       wavelength: 50,
+//       segmentLength: 10,
+// //       strokeStyle: 'rgba(255, 255, 255, 0.2)'
+//     }
+//     {
+//       timeModifier: 1,
+//       lineWidth: 0.5,
+//       amplitude: -100,
+//       wavelength: 100,
+//       segmentLength: 10,
+// //       strokeStyle: 'rgba(255, 255, 255, 0.1)'
+//     }
   ],
 
   initialize: function (){
