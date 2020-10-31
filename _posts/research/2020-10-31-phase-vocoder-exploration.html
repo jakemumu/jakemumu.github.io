@@ -1,0 +1,184 @@
+---
+layout: research_post
+company: Research
+cover_image: /assets/images/research/phase_vocoder/cover.png
+description: Documentation of my personal journey to go from zero understanding to a c++ implementation of the phase vocoder.
+---
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+
+<section class="silver-bg project-cover quarterheight">
+  <div class="valign">
+    <article class="welcome-heading text-center">
+      <h1 class="dark"><span class="font2">Phase Vocoder Exploration</span></h1>
+    </article>
+  </div>
+</section>
+
+<section class="sub-wrap add-top add-bottom project-info">
+  <div class="container-fluid">
+    <div class="row">
+      <article class="col-md-4 text-left caption">
+        <h2 class="project-title font2 dark">Phase Vocoder</h2>
+        <div class="liner color-bg"></div>
+        <h3 class="font4 grey remove-top">Fall 2020</h3>
+      </article>
+      <article class="col-md-8 text-left">
+        <h4 class="font2 dark">What we're doing</h4>
+        <p class="font4 add-bottom-quarter">
+          Over the past few days i've been reading up on the phase vocoder, as i'd like a higher quality way to transpose audio signals in my music apps, without needing outside SDKs or libraries.
+          I've already created many time domain overlap & add algorithms which have gone into commerical products, but the audible artifacts of the alogorithms has always been a creative approach to time / pitch scaling,
+          and never a commercially viable solution for transparent time / pitch scaling.
+          <br/><br/>
+          Usually when i work in the DSP space, my approach is a bit different than that of other engineers. While others are happy to understand the final form of peer research and implement immediately,
+          it helps me greatly to work all the way up to current state of the art, by first attempting my own naive approaches, thus shooting myself in the foot and understanding exactly why the naive approach of things don't work, 
+          which is exactly what we're going to do here.
+         </p>
+
+         <h4 class="font2 dark">PV / Overlap And Add Overview</h4>
+         <p class="font4 add-bottom-quarter">
+          As I mentioned, this is going to be a complete coming to terms of understanding the Phase Vocoder, at the time of writing this initial start, I, perhaps like you, do not yet fully understand what it is.
+          <br/><br/>
+          My naive understanding, is that the phase vocoder, is basically an implementation of the overlap & add concept in the frequency space, as opposed to the time space.
+          <br/><br/>
+          If you don't yet understand the overlap and add concept, it is quite simple, requires very little math understanding to implement in the time domain, and is very effective with
+          a lot of potential creative effects. This graphic from one of my old research paper demonstrates the concept roughly: 
+          <br/><br/>
+          <img class="img-responsive" src="/assets/images/research/phase_vocoder/assets/grain_overlap.png"/>
+          <br/><br/>
+          What this image is attempting to illustrate, is how an overlap and add process in the time domain can be used to decouple pitch and time. 
+          The white lines represent the concepts of grains, which is basically, a variable amount of audio data, represented as a window. This simply means,
+          you obtain a section of audio, and apply a fade over the section, so both the start and end are silent. What this allows you to do, is jump and scrub
+          around a piece of audio, without generating clicks as you move your playhead around to different regions of the sound.
+          <br/><br/>
+          In this image, we see on the left, that if we consider the entire piece of audio, as a single grain, when you pitch the audio up, it resamples or scrubs through
+          the audio faster, generating a change in pitch, but also a change in the length. On the right, we see the grains broken down to be much smaller, now, what we can
+          do it space our our grain appropriately, so that they retrigger at points, to shift the pitch of the audio up, while distributing them across the sample correct to
+          keep the time intact. This is the overlap and add concept, when we resample with this approach, multiple grains or windows of sounds are adding ontop of each other,
+          so that the listener cannot perceive that there isn't a steady stream of audio happening, and in fact, with the correct overlap and window sizes, this can sound, quite
+          good, but, it could be better, and that is where the phase vocoder comes into play.
+          </p>
+
+          <h4 class="font2 dark">Starting With Pitch</h4>
+          <p class="font4 add-bottom-quarter">
+            Let's break our end goal of a real time processing phase vocoder, down into some smaller steps. Now our goal is to decouple pitch and time. 
+            After a bit of reading, it seems there are two common ways of doing this.
+            <br><br>
+            1. We use overlap & add to make a piece of audio longer or shorter, and then resample it to change it's pitch. (I'm currently not sure how this is different than the time domain)
+            <br><br>
+            2. We compute the FFT of the windows, and then process the FFT to shift the pitch of the signals inside of it before performing in the inverse FFT.
+            <br><br>
+            Option one won't work for us because we want to run in near real time (very little latency), so lets get started with option two, figuring out how to modify FFT bins to shift the frequencies of the signal inside of it.
+           </p>
+
+          <h4 class="font2 dark">Modifying The Pitch Of A Signal Through FFT</h4>
+          <p class="font4 add-bottom-quarter">
+          
+            There's a lot going on to get this setup and running, and i'll post source code later on, but for now lets setup a 2 window overlap & add, which reconstructs the
+            signal with modified FFT windows. For testing your retuning algorithm, you can entirely skip the overlap and add section, but for the sake of audio demos here
+            i've set it up. The interesting this is how this is the exact same as the time domain.
+            <br><br>
+            I'm going to use an FFT size of 1024, with a hop size of 512. This means every 512 samples we'll generate a new windowed section of audio. The left half of this window,
+            will contain the right half of our previous window, and these overlapping will give us a contant stream of audio. Theoretically, the data should be the exact same, 
+            and sum back together at constant gain
+
+            <br><br>
+            1. Read Data Into Circular Buffer
+            <br>
+            2. When enough data for FFT processing is obtained, process the FFT
+            <br>
+            3. Move the FFT data around to shift the bin data into our new target bins.
+            <br>
+            4. Perform the inverse FFT, and send this to the output.
+          </p>
+
+          <pre>
+            <code class="language-cpp">
+              void MKUPhaseVocoder::processSingleSample(float& inSample)
+              {
+                // Store a sample in our circular buffer
+                mCircularBuffer.pushSingleSample(inSample);
+                
+                // Check if we have enough data for an FFT run
+                if (mCircularBuffer.getNumReady() >= mFFTSize) {
+
+                  // Obtain our "newest" FFT block (Avoid this alloc in real life)
+                  AudioBuffer<float> block = mCircularBuffer.getNewestData(mFFTSize);
+          
+                  // Apply a window function to our FFT to avoid leakage
+                  mHannWindow.multiplyWithWindowingTable(block.getWritePointer(0), mFFTSize);
+            
+                  // add some zero padding, JUCE will deliever the FFT data in place interleaved re,im 
+                  block.setSize(1, mFFTSize * 2, true);
+                            
+                  // Perform the FFT
+                  mFFT.performRealOnlyForwardTransform(block.getWritePointer(0));
+                }
+              }
+            </code>
+          </pre>
+
+          <p>
+          <br>
+          So now we have our FFT bins as the real and imaginary numbers, we can try shifting their bins around and see how that sounds:
+          <br>
+          First, lets store out current real and imaginary numbers so we can shuffle them around:
+          <br>
+          </p>
+
+          <pre>
+            <code class="language-cpp">
+              for (int i = 0; i < mFFTSize; i++) {
+
+                // Obtain real and imaginary numbers
+                float real = block.getSample(0, i*2);
+                float imag = block.getSample(0, i*2+1);
+    
+                /* Store them to redistribute before inverse transform */
+                mReals[i] = real;
+                mImaginaries[i] = imag;
+              }
+            </code>
+          </pre>
+
+          <p>
+            <br>
+            Alright -- so first attempt we'd naturally attempt, lets shift the bins around by our pitch factor. It's easy to understand why it might not work
+            perfectly, but it's a natural first try, and interesting to hear what it sounds like.
+            <br><br>
+            What we'll do, is loop through out FFT bins, and remap the bin by our pitch factor, for now 0.5 - 2.0, or one octave up and down.
+            <br><br>
+          </p>
+
+          <pre>
+            <code class="language-cpp">
+              // clear the original FFT data, we no longer need it.
+              block.clear();
+        
+              for (int i = 0; i < mFFTSize; i++)
+              {
+                
+                // map our old bin to our new bin based on our bitch factor
+                int new_index = i * pitch;
+    
+                // check for nyquist
+                if (new_index < mFFTSize)
+                {
+                  // re populate our FFT buffer with our shifted values before performing inverse transform
+                  block.setSample(0, new_index * 2, mReals[i]);
+                  block.setSample(0, new_index * 2 + 1, mImaginaries[i]);
+                }
+              }
+            </code>
+          </pre>
+
+
+      </article>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/plugins/autoloader/prism-autoloader.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
