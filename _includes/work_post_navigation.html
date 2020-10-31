@@ -1,0 +1,35 @@
+{% assign posts = site.posts | where:"type", "works" %}
+
+{% for post in posts %}
+  {% if post.url == page.url %}
+    {% assign post_index0 = forloop.index0 %}
+    {% assign post_index1 = forloop.index %}
+  {% endif %}
+{% endfor %}
+
+{% for post in posts %}
+  {% if post_index0 == forloop.index %}
+    {% assign next_post = post %}
+  {% endif %}
+  {% if post_index1 == forloop.index0 %}
+    {% assign prev_post = post %}
+  {% endif %}
+{% endfor %}
+
+<section class="project-nav silver-bg">
+  <div class="container-fluid">
+    <div class="row">
+      <article class="col-md-12 text-left no-pad">
+        <ul class="project-nav-icon-wrap">
+          {% if prev_post.url %}
+          <li><a  href="{{page.previous.url}}"><img alt="" title="" src="/assets/images/prev-dark.png"/></a></li>
+          {% endif %}
+          <li><a  href="works"><span class="ion-ios-grid-view-outline dark"></span></a></li>
+          {% if next_post.url %}
+          <li><a  href="{{page.next.url}}"><img alt="" title="" src="/assets/images/next-dark.png"/></a></li>
+          {% endif %}
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>

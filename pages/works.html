@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+{% assign posts = site.posts | where:"type", "works" %}
+
+<section class="silver-bg project-cover quarterheight">
+  <div class="valign">
+    <article class="welcome-heading text-center">
+      <h1 class="dark"><span class="font2">Works</span></h1>
+    </article>
+  </div>
+</section>
+
+<section>
+
+  <div id="works-container" class="works-container works-masonry-container clearfix white-bg">
+
+    {% for post in posts %}
+    <div class="works-item works-item-full-width">
+      <img alt="" title="" class="img-responsive" src="{{ post.cover_image }}"/>
+      <a  href="{{ post.url }}">
+          <div class="works-item-inner">
+            <h3 class="color font2">{{ post.title }}</h3>
+            <p><span class="silver font4">{{ post.company }}</span></p>
+          </div>
+      </a>
+    </div>
+    {% endfor %}
+
+  </div>
+    <!-- end : works-container -->
+</section>
