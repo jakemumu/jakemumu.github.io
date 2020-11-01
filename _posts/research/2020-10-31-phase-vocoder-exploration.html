@@ -2,7 +2,7 @@
 layout: research_post
 company: Research
 cover_image: /assets/images/research/phase_vocoder/cover.png
-description: Documentation of my personal journey to go from zero understanding to a c++ implementation of the phase vocoder.
+description: An exploration in hacking together a high quality phase vocoder while avoiding math.
 ---
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism.min.css" rel="stylesheet" />
@@ -46,7 +46,7 @@ description: Documentation of my personal journey to go from zero understanding 
           a lot of potential creative effects. This graphic from one of my old research paper demonstrates the concept roughly: 
           <br/><br/>
           <img class="img-responsive" src="/assets/images/research/phase_vocoder/assets/grain_overlap.png"/>
-          <br/><br/>
+          <br/>
           What this image is attempting to illustrate, is how an overlap and add process in the time domain can be used to decouple pitch and time. 
           The white lines represent the concepts of grains, which is basically, a variable amount of audio data, represented as a window. This simply means,
           you obtain a section of audio, and apply a fade over the section, so both the start and end are silent. What this allows you to do, is jump and scrub
@@ -251,7 +251,6 @@ description: Documentation of my personal journey to go from zero understanding 
             1. The naive pitch shifting approach isn't acceptable
             <br><br>
             2. There isn't enough overlap and add to keep the signal sounding constant. I attempted to increase overlap of the windows, however this made the results, utterly unacceptable and bad sounding, let's explore why that is.
-            <br><br>
           </p>
 
           <h4 class="font2 dark">How To Correctly Pitch Shift An FFT</h4>
@@ -267,8 +266,7 @@ description: Documentation of my personal journey to go from zero understanding 
             signals around that frequency
             <br><br>
             The amazing thing bless these people, is they're super smart and have a solution. The claim, is that by analyzing changes in the a bins phase over time, we're then able to
-            detect the "true" frequencies within that signal, the trick is to calculate some derivatives over time. I won't pretend I fully understand how this work, but lets take a shot
-            at coding it up. I'll also note, that my suspicion as to why the naive method sounded so bad with more overlap and add, is due to some sort of phase cancellation on the overlaps.
+            detect the "true" frequencies within that signal, the trick is to calculate some derivatives over time.
           </p>
 
           <h4 class="font2 dark"> Correcting Our Approach (Selective Peak Shifting) </h4>
@@ -291,18 +289,14 @@ description: Documentation of my personal journey to go from zero understanding 
 
             We're pretty good on analysis and synthesis, the structure of our alogorithm allows us to flexibly define the FFT sizes, the Hop Sizes, and all the pieces to deconstruct and
             reconstruct the signal, what we need to do it improve our processing step to use some of the actual techniques of the phase vocoder.
-            <br>
-            I don't 100% understand all the intricacies of the options for processing yet, but there is some example code in the Zynaptiq article i'm going to attempt to undertstand and implement.
+            <br><br>
+            DISCLAIMER -- THIS FUNCTIONALITY IS TAKEN FROM THE ZYNAPTIQ SOURCE CODE <a target="_blank" href="http://blogs.zynaptiq.com/bernsee/repo/smbPitchShift.cpp">HERE</a> I TAKE NO CLAIM TO THE FORTHCOMING CODE
             <br><br>
             Step 1: Convert our FFT information into the polar coordinate space so we can use our phase history to approximate the true frequency of the FFT bin.
             <br><br>
             Step 2: Compare our previous phase with our current phase, and what we would expect the change in phase to be given the frequency was exactly centered in the FFT
             <br><br>
             Step 3: Use this information to construct an array of our "true" frequency & magnitudes
-            <br><br>
-            DISCLAIMER -- THIS FUNCTIONALITY IS TAKEN FROM THE ZYNAPTIQ SOURCE CODE <a target="_blank" href="http://blogs.zynaptiq.com/bernsee/repo/smbPitchShift.cpp">HERE</a> (WITHOUT IT I COULDN'T DO THIS)
-            <br><br>
-            I've simply picked through it and given some clearer variables names etc in an attempt to better understand it.
           </p>
 
           <pre>
@@ -351,6 +345,7 @@ description: Documentation of my personal journey to go from zero understanding 
             <br><br>
             Here is a small subset of the data:
           </p>
+          <br>
 
           <pre>
             <code class="language-cpp">
@@ -432,6 +427,119 @@ description: Documentation of my personal journey to go from zero understanding 
               ---
             </code>
           </pre>
+
+          <p>
+            <br>
+            What you'll notice, is that there isn't any bin which truly represents 440hz. So the nearest bins (420 & 468) have had this frequency remapped to the 440
+            <br><br>
+            So now, we do our same "bin remapping"
+            <br><br>
+            Primarily, we're reshifting our bins to our new position, along with true pitch we'd expect to see in that bin:
+            <br><br>
+          </p>
+
+          <pre>
+            <code class="language-cpp">
+              for (int i = 0; i < mFFTSize; i++) {
+                int new_index = i * pitch;
+                if (new_index < mFFTSize) {
+                    outputMags[new_index] += mMagnitudes[i];
+                    outputFreqs[new_index] = mFrequencies[i] * pitch;
+                }
+              }
+            </code>
+          </pre>
+
+          <p>
+            <br>
+            Now that we have our correct FFT data we can synthesize:
+            <br><br>
+          </p>
+
+          <pre>
+            <code class="language-cpp">
+
+              // Clear our block to rebuild it for inverse FFT
+              block.clear();
+
+              // RESYNTHESIZE OUTPUT WITH NEW DATA
+              for (int i = 0; i < mFFTSize; i++)
+              {
+                /* get magnitude and true frequency from synthesis arrays */
+                float magn = outputMags[i];
+                float new_frequency = outputFreqs[i];
+    
+                /* subtract bin mid frequency */
+                new_frequency -= (double)i*frequency_per_bin;
+    
+                /* get bin deviation from freq deviation */
+                new_frequency /= frequency_per_bin;
+    
+                /* take overlap rate into account */
+                new_frequency = 2.*M_PI*new_frequency/mOverlapRate;
+    
+                /* add the overlap phase advance back in */
+                new_frequency += (double)i*expected_phase_change_base;
+    
+                /* accumulate delta phase to get bin phase */
+                mPhaseAccumulator[i] += new_frequency;
+                float phase = mPhaseAccumulator[i];
+    
+                /* get real and imag part and re-interleave */
+                block.setSample(0, i * 2, magn*cos(phase));
+                block.setSample(0, i * 2 + 1, magn*sin(phase));
+              }
+      
+              /* now invert and store for output */
+              mFFT.performRealOnlyInverseTransform(block.getWritePointer(0));
+
+            </code>
+          </pre>
+
+          <p>
+            <br>
+            So with all of that done, we've got our improved phase vocoder which is using our phase history to
+            more accurately shift the pitches
+            <br><br>
+            Here are the results:
+            <br><br>
+
+            Original: <br>
+            <audio controls>
+              <source src="/assets/audio/phase_vocoder/proper_peak_detection/Original.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+
+            <br><br>
+
+            Ableton's Complex Pro w/ Pitch Factor 2: <br>
+            <audio controls>
+              <source src="/assets/audio/phase_vocoder/proper_peak_detection/Ableton.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+
+            <br><br>
+
+            Ours Pitch Factor 2: <br>
+            <audio controls>
+              <source src="/assets/audio/phase_vocoder/proper_peak_detection/MKU.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+          </p>
+
+          <br> <br>
+          <img class="img-responsive" src="https://media.giphy.com/media/l4JySAWfMaY7w88sU/giphy.gif"/>
+          <br> <br>
+
+          <p>
+            So with all of that, we can hear that we've atleast entered the ballpark of high quality pitching shifting algorithms on the market.
+            <br><br>
+            For now, I'm going to pause writing this article here and take a break, and dive a bit deeper into understanding where these implementation from
+            Zynaptiq come from, and how we can continue to improve our pitching engine. 
+            <br><br>
+            Until then thanks for reading (11/1/2020)
+          </p>
+
 
 
       </article>
