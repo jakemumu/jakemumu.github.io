@@ -50,11 +50,13 @@ a:focus {
 .welcome-heading h1 span{
     font-size: 32px;
     letter-spacing: 8px;
-    line-height: 64px;
+    line-height: 90px;
     text-transform: uppercase;
     padding: 20px;
     padding-left: 28px;
     border: solid 4px #222;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
 }
 .main-heading > span{
   font-size: 32px;
