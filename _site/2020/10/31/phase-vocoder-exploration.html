@@ -287,6 +287,113 @@
             </code>
           </pre>
 
+          <p>
+            <br>
+            The last step is then obviously to get some playback running on these:
+            <br><br>
+          </p>
+
+          <pre>
+            <code class="language-cpp">
+            {...
+              // Perform the inverse FFT
+              mFFT.performRealOnlyInverseTransform(block.getWritePointer(0));
+
+              // Dump the extra padding that was there for imaginary numbers
+              block.setSize(1, mFFTSize, true);
+
+              // Find a free output grain to manage synchronizing this buffer (We have 2)
+              for (int i = 0; i < mOLAPOutputBuffers.size(); i++) {
+                  if (mOLAPOutputBuffers[i]->isRunning() == false) {
+                      mOLAPOutputBuffers[i]->initalize(block);
+                      break;
+                  }
+              }
+              
+              // Tell our circular buffer, how much we consumed (this will control how often we get FFT callbacks)
+              mCircularBuffer.setNumRead(mHopSize);
+            }
+            
+            // Now we've exited the FFT processing section and are back in per sample land
+            inSample = 0;
+            
+            // Loop through our "OLAP" grains & sum em up
+            for (int i = 0; i < mOLAPOutputBuffers.size(); i++) {
+                inSample += mOLAPOutputBuffers[i]->getNextSample();
+            }
+            </code>
+          </pre>
+
+          <p>
+            <br>
+            So with all of that done, we've got our naive brute force pitch shifting not phase vocoder.
+            <br><br>
+            Here are the results:
+            <br><br>
+
+            Pitch Factor 1: <br>
+            <audio controls>
+              <source src="/assets/audio/phase_vocoder/naive_pitch_shift/pitch_factor_1.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+
+            <br><br>
+
+            Pitch Factor 1.25: <br>
+            <audio controls>
+              <source src="/assets/audio/phase_vocoder/naive_pitch_shift/pitch_factor_1.25.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+
+            <br><br>
+
+            Pitch Factor 1.5: <br>
+            <audio controls>
+              <source src="/assets/audio/phase_vocoder/naive_pitch_shift/pitch_factor_1.5.wav" type="audio/wav">
+              Your browser does not support the audio element.
+            </audio>
+          </p>
+
+          <br> <br>
+          <img class="img-responsive" src="https://media.giphy.com/media/Y54bNi0kU0oj6/giphy.gif"/>
+          <br> <br>
+
+          <h4 class="font2 dark">Naive Review</h4>
+          <p class="font4 add-bottom-quarter">
+          
+            Clearly, we can hear that this method isn't sounding quite right... And there are a couple potential issues.
+            <br><br>
+            1. The naive pitch shifting approach isn't acceptable<br>
+            2. I still don't understand the phase vocoder, and this method of overlap and add isn't applicable.
+            <br><br>
+            Before I dive into actually understanding the phase vocoder and reading research papers (bleh..), i'm going to correct the pitching approach.
+          </p>
+
+          <h4 class="font2 dark">How To Correctly Pitch Shift An FFT</h4>
+          <p class="font4 add-bottom-quarter">
+            So now that we've tried our naive pitch shifting approach, we can look into some real solutions and learn why this isn't so easy. The number one article which keeps coming up over and over
+            is <a target="_blank" href="http://blogs.zynaptiq.com/bernsee/pitch-shifting-using-the-ft/">this</a> article from the team at <a target="_blank" href="https://www.zynaptiq.com"> Zynaptiq</a> who have been making awesome audio effects since I was in diapers.
+            <br><br>
+            The basic summary is this: FFTs are wonderful tools and can give us perfect forward & inverse transforms of a signal, however modifying signals in the FFT space isn't so
+            simple as shifting some bins around. The reason for this is what they refer to as "Frequency Resolution" -- and they have some awesome graphics I recommend checking out.
+            <br><br>
+            The main point, is that our STFTs have bins at fixed frequency internals, and unless a frequency perfectly matches up with one of these bins, then the power of the spectra
+            around that point, are going to mix around various bins in the FFT. So basically, when you take one bins re,im & pop it into another bin, it's not really correctly shifting the
+            signals around that frequency
+            <br><br>
+            The amazing thing bless these people, is they're super smart and have a solution. The claim, is that by analyzing changes in the a bins phase over time, we're then able to
+            detect the "true" frequencies within that signal, the trick is to calculate some derivatives over time. I won't pretend I fully understand how this work, but lets take a shot
+            at coding it up.
+          </p>
+
+          <h4 class="font2 dark">Correcting Our Approach</h4>
+          <p class="font4 add-bottom-quarter">
+
+
+
+          </p>
+
+          
 
       </article>
     </div>
