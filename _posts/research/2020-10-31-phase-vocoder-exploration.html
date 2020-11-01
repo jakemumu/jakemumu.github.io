@@ -27,12 +27,11 @@ description: An exploration in hacking together a high quality phase vocoder whi
       <article class="col-md-8 text-left">
         <h4 class="font2 dark">What we're doing</h4>
         <p class="font4 add-bottom-quarter">
-          Over the past few days i've been reading up on the phase vocoder, as i'd like a higher quality way to transpose audio signals in my music apps, without needing outside SDKs or libraries.
-          I've already created many time domain overlap & add algorithms which have gone into commerical products, but the audible artifacts of the alogorithms has always been a creative approach to time / pitch scaling,
-          and never a commercially viable solution for transparent time / pitch scaling.
+          Over the past few days, I've been reading up on the phase vocoder, as I'd like a higher quality way to transpose audio signals in my music apps, without needing outside SDKs or libraries.
+          I've already created many time-domain overlap & add algorithms which have gone into commercial products, but the audible artifacts of the algorithms have always been a creative approach to time/pitch scaling,
+          and never a commercially viable solution for transparent time/pitch scaling.
           <br/><br/>
-          Usually when i work in the DSP space, my approach is a bit different than that of other engineers. While others are happy to understand the final form of peer research and implement immediately,
-          it helps me greatly to work all the way up to current state of the art, by first attempting my own naive approaches, thus shooting myself in the foot and understanding exactly why the naive approach of things don't work, 
+          Usually when I work in the DSP space, my approach is a bit different. It helps me greatly to work up to current state of the art, by first attempting my naive approaches, thus shooting myself in the foot and understanding exactly why the naive approach doesn't work, 
           which is exactly what we're going to do here.
          </p>
 
@@ -40,10 +39,10 @@ description: An exploration in hacking together a high quality phase vocoder whi
          <p class="font4 add-bottom-quarter">
           As I mentioned, this is going to be a complete coming to terms of understanding the Phase Vocoder, at the time of writing this initial start, I, perhaps like you, do not yet fully understand what it is.
           <br/><br/>
-          My naive understanding, is that the phase vocoder, is basically an implementation of the overlap & add concept in the frequency space, as opposed to the time space.
+          My naive understanding is that the phase vocoder is basically an implementation of the overlap & add concept in the frequency space, as opposed to the time space.
           <br/><br/>
           If you don't yet understand the overlap and add concept, it is quite simple, requires very little math understanding to implement in the time domain, and is very effective with
-          a lot of potential creative effects. This graphic from one of my old research paper demonstrates the concept roughly: 
+          a lot of potential creative effects. This graphic from one of my old research papers demonstrates the concept roughly: 
           <br/><br/>
           <img class="img-responsive" src="/assets/images/research/phase_vocoder/assets/grain_overlap.png"/>
           <br/>
@@ -54,10 +53,10 @@ description: An exploration in hacking together a high quality phase vocoder whi
           <br/><br/>
           In this image, we see on the left, that if we consider the entire piece of audio, as a single grain, when you pitch the audio up, it resamples or scrubs through
           the audio faster, generating a change in pitch, but also a change in the length. On the right, we see the grains broken down to be much smaller, now, what we can
-          do it space our our grain appropriately, so that they retrigger at points, to shift the pitch of the audio up, while distributing them across the sample correct to
-          keep the time intact. This is the overlap and add concept, when we resample with this approach, multiple grains or windows of sounds are adding ontop of each other,
+          do is space our grain appropriately, so that they retrigger at points, to shift the pitch of the audio up, while distributing them across the sample correct to
+          keep the time intact. This is the overlap and add concept, when we resample with this approach, multiple grains or windows of sounds are adding on top of each other
           so that the listener cannot perceive that there isn't a steady stream of audio happening, and in fact, with the correct overlap and window sizes, this can sound, quite
-          good, but, it could be better, and that is where the phase vocoder comes into play.
+          good. It could be better, and that is where the phase vocoder comes into play.
           </p>
 
           <h4 class="font2 dark">Starting With Pitch</h4>
@@ -65,23 +64,21 @@ description: An exploration in hacking together a high quality phase vocoder whi
             Let's break our end goal of a real time processing phase vocoder, down into some smaller steps. Now our goal is to decouple pitch and time. 
             After a bit of reading, it seems there are two common ways of doing this.
             <br><br>
-            1. We use overlap & add to make a piece of audio longer or shorter, and then resample it to change it's pitch. (I'm currently not sure how this is different than the time domain)
+            1. We use overlap & add to make a piece of audio longer or shorter, and then resample it to change its pitch. (I'm currently not sure how this is different than the time domain)
             <br><br>
-            2. We compute the FFT of the windows, and then process the FFT to shift the pitch of the signals inside of it before performing in the inverse FFT.
+            2. We compute the FFT of the window, and then process the FFT to shift the pitch of the signals inside of it before performing in the inverse FFT.
             <br><br>
-            Option one won't work for us because we want to run in near real time (very little latency), so lets get started with option two, figuring out how to modify FFT bins to shift the frequencies of the signal inside of it.
+            Option one won't work for us because we want to run in near real time (very little latency), so let's get started with option two, figuring out how to modify FFT bins to shift the frequencies of the signal inside of it.
            </p>
 
           <h4 class="font2 dark">Modifying The Pitch Of A Signal Through FFT</h4>
           <p class="font4 add-bottom-quarter">
           
-            There's a lot going on to get this setup and running, and i'll post source code later on, but for now lets setup a 2 window overlap & add, which reconstructs the
-            signal with modified FFT windows. For testing your retuning algorithm, you can entirely skip the overlap and add section, but for the sake of audio demos here
-            i've set it up. The interesting this is how this is the exact same as the time domain.
+            A lot is going on to get this set up and running, and I'll post source code later on, but for now, let's set up a 2 window overlap & add, which reconstructs the
+            signal with modified FFT windows.
             <br><br>
             I'm going to use an FFT size of 1024, with a hop size of 512. This means every 512 samples we'll generate a new windowed section of audio. The left half of this window,
-            will contain the right half of our previous window, and these overlapping will give us a contant stream of audio. Theoretically, the data should be the exact same, 
-            and sum back together at constant gain
+            will contain the right half of our previous window and these overlapping will give us a constant stream of audio.
 
             <br><br>
             1. Read Data Into Circular Buffer
@@ -90,7 +87,7 @@ description: An exploration in hacking together a high quality phase vocoder whi
             <br>
             3. Move the FFT data around to shift the bin data into our new target bins.
             <br>
-            4. Perform the inverse FFT, rewindow the signal, and send this to the output.
+            4. Perform the inverse FFT, re-window the signal, and send this to the output.
           </p>
 
           <pre>
@@ -144,10 +141,10 @@ description: An exploration in hacking together a high quality phase vocoder whi
 
           <p>
             <br>
-            Alright -- so first attempt we'd naturally attempt, lets shift the bins around by our pitch factor. It's easy to understand why it might not work
+            Alright -- so the first thing we'd naturally attempt, lets shift the bins around by our pitch factor. It's easy to understand why it might not work
             perfectly, but it's a natural first try, and interesting to hear what it sounds like.
             <br><br>
-            What we'll do, is loop through out FFT bins, and remap the bin by our pitch factor, for now 0.5 - 2.0, or one octave up and down.
+            What we'll do, is loop through our FFT bins, and remap the bin by our pitch factor, for now, 0.5 - 2.0, or one octave up and down.
             <br><br>
           </p>
 
@@ -246,27 +243,27 @@ description: An exploration in hacking together a high quality phase vocoder whi
           <h4 class="font2 dark">Naive Review</h4>
           <p class="font4 add-bottom-quarter">
           
-            Clearly, we can hear that this method isn't sounding quite right... And there are a couple potential issues.
+            We can hear that this method isn't sounding quite right... And there are a couple of potential issues.
             <br><br>
-            1. The naive pitch shifting approach isn't acceptable
+            1. The naive pitch-shifting approach isn't acceptable
             <br><br>
-            2. There isn't enough overlap and add to keep the signal sounding constant. I attempted to increase overlap of the windows, however this made the results, utterly unacceptable and bad sounding, let's explore why that is.
+            2. There isn't enough overlap and add to keep the signal sounding constant. I attempted to increase the overlap of the windows, however this made the results utterly unacceptable and bad sounding. Let's explore why that is.
           </p>
 
           <h4 class="font2 dark">How To Correctly Pitch Shift An FFT</h4>
           <p class="font4 add-bottom-quarter">
-            So now that we've tried our naive pitch shifting approach, we can look into some real solutions and learn why this isn't so easy. The number one article which keeps coming up over and over
+            So now that we've tried our naive pitch-shifting approach, we can look into some real solutions and learn why this isn't so easy. The number one article which keeps coming up over and over
             is <a target="_blank" href="http://blogs.zynaptiq.com/bernsee/pitch-shifting-using-the-ft/">this</a> article from the team at <a target="_blank" href="https://www.zynaptiq.com"> Zynaptiq</a> who have been making awesome audio effects since I was in diapers.
             <br><br>
             The basic summary is this: FFTs are wonderful tools and can give us perfect forward & inverse transforms of a signal, however modifying signals in the FFT space isn't so
             simple as shifting some bins around. The reason for this is what they refer to as "Frequency Resolution" -- and they have some awesome graphics I recommend checking out.
             <br><br>
-            The main point, is that our STFTs have bins at fixed frequency internals, and unless a frequency perfectly matches up with one of these bins, then the power of the spectra
-            around that point, are going to mix around various bins in the FFT. So basically, when you take one bins re,im & pop it into another bin, it's not really correctly shifting the
+            The main point is that our STFTs have bins at fixed frequency internals, and unless a frequency perfectly matches up with one of these bins, then the power of the spectra
+            around that point, are going to mix around various bins in the FFT. So basically, when you take one bins re,im & pop it into another bin, it's not correctly shifting the
             signals around that frequency
             <br><br>
-            The amazing thing bless these people, is they're super smart and have a solution. The claim, is that by analyzing changes in the a bins phase over time, we're then able to
-            detect the "true" frequencies within that signal, the trick is to calculate some derivatives over time.
+            The amazing thing, bless these people, is they're super smart and have a solution they've provided us we'll disect together. The claim is that by analyzing changes in the a bins phase over time, we're then able to
+            detect the "true" frequency within that bin.
           </p>
 
           <h4 class="font2 dark"> Correcting Our Approach (Selective Peak Shifting) </h4>
@@ -287,8 +284,8 @@ description: An exploration in hacking together a high quality phase vocoder whi
             3. Synthesis
             <br><br>
 
-            We're pretty good on analysis and synthesis, the structure of our alogorithm allows us to flexibly define the FFT sizes, the Hop Sizes, and all the pieces to deconstruct and
-            reconstruct the signal, what we need to do it improve our processing step to use some of the actual techniques of the phase vocoder.
+            We're pretty good on analysis and synthesis, the structure of our algorithm allows us to flexibly define the FFT size, the hop size, and all the pieces to deconstruct and
+            reconstruct the signal, what we need to do is improve our processing step to use some of the actual techniques of the phase vocoder.
             <br><br>
             DISCLAIMER -- THIS FUNCTIONALITY IS TAKEN FROM THE ZYNAPTIQ SOURCE CODE <a target="_blank" href="http://blogs.zynaptiq.com/bernsee/repo/smbPitchShift.cpp">HERE</a> I TAKE NO CLAIM TO THE FORTHCOMING CODE
             <br><br>
@@ -336,12 +333,12 @@ description: An exploration in hacking together a high quality phase vocoder whi
 
           <p>
             <br>
-            So what this gives us is really interesting. What i've done is passed a 440 hz sine tone through the algorithm and printed out the results. 
+            So what this gives us is interesting. What I've done is passed a 440 hz sine tone through the algorithm and printed out the results. 
             <br><br>
-            The final result is basically an array equal to our FFT size, however, instead of a direct mapping to the bins frequency according our our FFT size,
-            we're given an array with the "true" frequency of the data contained inside of the FFT, as well as a magitude for that bin. Essentially, all of the bins
+            The final result is an array equal to our FFT size, however, instead of a direct mapping to the frquency of the bin according to our FFT size,
+            we're given an array with the "true" frequency of the data contained inside of the FFT, as well as a magnitude for that bin. Essentially, all of the bins
             around our bin containing 440 hz, is a bit of a bell into a peak at that bin, where the bins surrounding it have had their frequency replaced with the true 440 hz frequency, 
-            with less magnitude, which is compensating for out frequency leakage / smear across the bins.
+            with less magnitude, which is compensating for out frequency leakage/smear across the bins.
             <br><br>
             Here is a small subset of the data:
           </p>
@@ -430,7 +427,7 @@ description: An exploration in hacking together a high quality phase vocoder whi
 
           <p>
             <br>
-            What you'll notice, is that there isn't any bin which truly represents 440hz. So the nearest bins (420 & 468) have had this frequency remapped to the 440
+            What you'll notice, is that there isn't any bin which represents 440hz. So the nearest bins (420 & 468) have had their frequency remapped to the 440
             <br><br>
             So now, we do our same "bin remapping"
             <br><br>
@@ -498,8 +495,9 @@ description: An exploration in hacking together a high quality phase vocoder whi
 
           <p>
             <br>
-            So with all of that done, we've got our improved phase vocoder which is using our phase history to
-            more accurately shift the pitches
+            So with all of that done, we've got our improved FFT based pitch shifting which is using our phase history to
+            more accurately shift the pitches. I've also gone ahead and cranked our overlap rate up since this new method can
+            support a much higher overlap.
             <br><br>
             Here are the results:
             <br><br>
@@ -520,7 +518,7 @@ description: An exploration in hacking together a high quality phase vocoder whi
 
             <br><br>
 
-            Ours Pitch Factor 2: <br>
+            Our's Pitch Factor 2: <br>
             <audio controls>
               <source src="/assets/audio/phase_vocoder/proper_peak_detection/MKU.wav" type="audio/wav">
               Your browser does not support the audio element.
@@ -532,10 +530,10 @@ description: An exploration in hacking together a high quality phase vocoder whi
           <br> <br>
 
           <p>
-            So with all of that, we can hear that we've atleast entered the ballpark of high quality pitching shifting algorithms on the market.
+            So with all of that, we can hear that we've at least entered the ballpark of high-quality pitching shifting algorithms on the market. 
             <br><br>
-            For now, I'm going to pause writing this article here and take a break, and dive a bit deeper into understanding where these implementation from
-            Zynaptiq come from, and how we can continue to improve our pitching engine. 
+            For now, I'm going to pause writing this article here and take a break, and dive a bit deeper into understanding where the implementation from
+            Zynaptiq comes from, and how we can continue to improve our pitching engine. 
             <br><br>
             Until then thanks for reading (11/1/2020)
           </p>
