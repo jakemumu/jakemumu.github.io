@@ -312,8 +312,7 @@ header.masthead .inner{
      -o-transition: all .4s linear;
       transition: all .4s linear;
 }
-.featured-panel-item-overlay h3{
-}
+
 .featured-panel-item-overlay h3 span{
   border: solid 2px #fff;
   padding: 14px;
@@ -732,18 +731,11 @@ nav.mastnav a:focus{
             text-transform: uppercase;
             margin-bottom: 5px;
         }
-        .works-item-inner p{
-        }
+
         .works-item-inner p > span{
             font-size: 16px;
             line-height: 23px;
             margin-top: 0px;
-        }
-        .works-item a:hover
-        .works-item-inner h3{
-        }
-        .works-item a:hover
-        .works-item-inner p{
         }
 
 .works-item-fade{
@@ -758,6 +750,13 @@ nav.mastnav a:focus{
 .works-item-fade a{
 	display: none !important;
 }
+
+.research-item-card {
+  height: 300px;
+  background-color: #fc9842;
+  background-image: linear-gradient(315deg, #fc9842 0%, #fe5f75 74%);
+}
+
 .works-masonry-container{
     padding: 0;
   margin:0px !important;
@@ -1108,7 +1107,6 @@ nav.mastnav a:focus{
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
         }
-}
 
 /*ELEMENTS*/
 .minimal-caps{
@@ -1138,10 +1136,9 @@ nav.mastnav a:focus{
     filter: gray; /* IE6-9 */
     -webkit-filter: grayscale(99%); /* Chrome 19+ & Safari 6+ */
     -webkit-backface-visibility: hidden;  /* Fix for transition flickering */
+    backface-visibility: hidden;  /* Fix for transition flickering */
   }
-}
-.contact-box{
-}
+
 .contact-box h1{
   font-size: 28px;
   line-height: 35px;

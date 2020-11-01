@@ -47,15 +47,19 @@ a:focus {
     max-width: 1000px;
   }
 }
+
 .welcome-heading h1 span{
     font-size: 32px;
     letter-spacing: 8px;
-    line-height: 64px;
+    line-height: 92px;
     text-transform: uppercase;
     padding: 20px;
     padding-left: 28px;
     border: solid 4px #222;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
 }
+
 .main-heading > span{
   font-size: 32px;
   line-height: 39px;
@@ -312,6 +316,7 @@ header.masthead .inner{
      -o-transition: all .4s linear;
       transition: all .4s linear;
 }
+
 .featured-panel-item-overlay h3 span{
   border: solid 2px #fff;
   padding: 14px;
@@ -730,6 +735,7 @@ nav.mastnav a:focus{
             text-transform: uppercase;
             margin-bottom: 5px;
         }
+
         .works-item-inner p > span{
             font-size: 16px;
             line-height: 23px;
@@ -1105,7 +1111,7 @@ nav.mastnav a:focus{
                  -o-transition: all .4s ease-in-out;
                     transition: all .4s ease-in-out;
         }
-        
+
 /*ELEMENTS*/
 .minimal-caps{
       font-size: 16px;
@@ -1135,7 +1141,7 @@ nav.mastnav a:focus{
     -webkit-filter: grayscale(99%); /* Chrome 19+ & Safari 6+ */
     -webkit-backface-visibility: hidden;  /* Fix for transition flickering */
     backface-visibility: hidden;  /* Fix for transition flickering */
-}
+  }
 
 .contact-box h1{
   font-size: 28px;

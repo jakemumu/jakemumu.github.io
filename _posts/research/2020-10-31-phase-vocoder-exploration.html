@@ -11,7 +11,7 @@ description: Documentation of my personal journey to go from zero understanding 
 <section class="silver-bg project-cover quarterheight">
   <div class="valign">
     <article class="welcome-heading text-center">
-      <h1 class="dark"><span class="font2">Phase Vocoder Exploration</span></h1>
+      <h1 class="dark"><span class="font2">Phase Vocoder Exploration (IN PROGRESS)</span></h1>
     </article>
   </div>
 </section>
@@ -90,7 +90,7 @@ description: Documentation of my personal journey to go from zero understanding 
             <br>
             3. Move the FFT data around to shift the bin data into our new target bins.
             <br>
-            4. Perform the inverse FFT, and send this to the output.
+            4. Perform the inverse FFT, rewindow the signal, and send this to the output.
           </p>
 
           <pre>
@@ -121,10 +121,10 @@ description: Documentation of my personal journey to go from zero understanding 
 
           <p>
           <br>
-          So now we have our FFT bins as the real and imaginary numbers, we can try shifting their bins around and see how that sounds:
-          <br>
+          So now we have our FFT bins as the real and imaginary numbers, we can try shifting their bins around and see how that sounds.
+          <br><br>
           First, lets store out current real and imaginary numbers so we can shuffle them around:
-          <br>
+          <br><br>
           </p>
 
           <pre>
@@ -158,7 +158,6 @@ description: Documentation of my personal journey to go from zero understanding 
         
               for (int i = 0; i < mFFTSize; i++)
               {
-                
                 // map our old bin to our new bin based on our bitch factor
                 int new_index = i * pitch;
     
@@ -249,10 +248,10 @@ description: Documentation of my personal journey to go from zero understanding 
           
             Clearly, we can hear that this method isn't sounding quite right... And there are a couple potential issues.
             <br><br>
-            1. The naive pitch shifting approach isn't acceptable<br>
-            2. I still don't understand the phase vocoder, and this method of overlap and add isn't applicable.
+            1. The naive pitch shifting approach isn't acceptable
             <br><br>
-            Before I dive into actually understanding the phase vocoder and reading research papers (bleh..), i'm going to correct the pitching approach.
+            2. There isn't enough overlap and add to keep the signal sounding constant. I attempted to increase overlap of the windows, however this made the results, utterly unacceptable and bad sounding, let's explore why that is.
+            <br><br>
           </p>
 
           <h4 class="font2 dark">How To Correctly Pitch Shift An FFT</h4>
@@ -269,17 +268,171 @@ description: Documentation of my personal journey to go from zero understanding 
             <br><br>
             The amazing thing bless these people, is they're super smart and have a solution. The claim, is that by analyzing changes in the a bins phase over time, we're then able to
             detect the "true" frequencies within that signal, the trick is to calculate some derivatives over time. I won't pretend I fully understand how this work, but lets take a shot
-            at coding it up.
+            at coding it up. I'll also note, that my suspicion as to why the naive method sounded so bad with more overlap and add, is due to some sort of phase cancellation on the overlaps.
           </p>
 
-          <h4 class="font2 dark">Correcting Our Approach</h4>
+          <h4 class="font2 dark"> Correcting Our Approach (Selective Peak Shifting) </h4>
           <p class="font4 add-bottom-quarter">
+            So I finally decided to dive in and read more about the actual phase vocoder. <a target="_blank" href="https://www2.spsc.tugraz.at/www-archive/downloads/Bachelor%20Thesis%20Gruenwald.pdf">This</a> paper has been really useful
+            and given me some further nomenclature to understand the theory and implementations described in the Zynaptiq article. It also provides us with this beautiful graphic
+            showing the phase vocoders structure:
+          </p>
+          <img class="img-responsive" src="/assets/images/research/phase_vocoder/assets/phase_vocoder_structure.png"/>
+          <p class="font4 add-bottom-quarter">
+            The way they describe the steps of the phase vocoder in the paper is a 3 step process.
 
+            <br><br>
+            1. Analysis
+            <br>
+            2. Processing
+            <br>
+            3. Synthesis
+            <br><br>
 
-
+            We're pretty good on analysis and synthesis, the structure of our alogorithm allows us to flexibly define the FFT sizes, the Hop Sizes, and all the pieces to deconstruct and
+            reconstruct the signal, what we need to do it improve our processing step to use some of the actual techniques of the phase vocoder.
+            <br>
+            I don't 100% understand all the intricacies of the options for processing yet, but there is some example code in the Zynaptiq article i'm going to attempt to undertstand and implement.
+            <br><br>
+            Step 1: Convert our FFT information into the polar coordinate space so we can use our phase history to approximate the true frequency of the FFT bin.
+            <br><br>
+            Step 2: Compare our previous phase with our current phase, and what we would expect the change in phase to be given the frequency was exactly centered in the FFT
+            <br><br>
+            Step 3: Use this information to construct an array of our "true" frequency & magnitudes
+            <br><br>
+            DISCLAIMER -- THIS FUNCTIONALITY IS TAKEN FROM THE ZYNAPTIQ SOURCE CODE <a target="_blank" href="http://blogs.zynaptiq.com/bernsee/repo/smbPitchShift.cpp">HERE</a> (WITHOUT IT I COULDN'T DO THIS)
+            <br><br>
+            I've simply picked through it and given some clearer variables names etc in an attempt to better understand it.
           </p>
 
-          
+          <pre>
+            <code class="language-cpp">
+              for (int i = 0; i < mFFTSize; i++) {
+                // Convert the FFT data to a complex
+                std::complex<double> complex;
+                complex.real(block.getSample(0, i*2));
+                complex.imag(block.getSample(0, i*2+1));
+    
+                // Obtain the magnitude and phase information in polar coordinates
+                double magnitude = std::abs(complex);
+                double phase = std::arg(complex);
+    
+                /* compute phase difference */
+                float true_frequency = phase - mPhaseHistory[i];
+                mPhaseHistory[i] = phase;
+    
+                /* subtract expected phase difference */
+                true_frequency -= (double)i*expected_phase_change_base;
+    
+                /* map delta phase into +/- Pi interval */
+                true_frequency = constrainAngle(true_frequency);
+    
+                /* get deviation from bin frequency from the +/- Pi interval */
+                true_frequency = mOverlapRate * true_frequency / (2.*M_PI);
+                
+                /* compute the partials' true frequency */
+                true_frequency = (double)i * frequency_per_bin + true_frequency * frequency_per_bin;
+    
+                /* store magnitude and true frequency in analysis arrays */
+                mMagnitudes[i] = magnitude;
+                mFrequencies[i] = true_frequency;
+              }
+            </code>
+          </pre>
+
+          <p>
+            <br>
+            So what this gives us is really interesting. What i've done is passed a 440 hz sine tone through the algorithm and printed out the results. 
+            <br><br>
+            The final result is basically an array equal to our FFT size, however, instead of a direct mapping to the bins frequency according our our FFT size,
+            we're given an array with the "true" frequency of the data contained inside of the FFT, as well as a magitude for that bin. Essentially, all of the bins
+            around our bin containing 440 hz, is a bit of a bell into a peak at that bin, where the bins surrounding it have had their frequency replaced with the true 440 hz frequency, 
+            with less magnitude, which is compensating for out frequency leakage / smear across the bins.
+            <br><br>
+            Here is a small subset of the data:
+          </p>
+
+          <pre>
+            <code class="language-cpp">
+              ---
+              Bin: 3
+              Bin Center Hz: 140.625
+              Bin True Frequency: 456.245
+              Bin Magnitude: 0.259497
+              ---
+              Bin: 4
+              Bin Center Hz: 187.5
+              Bin True Frequency: 447.296
+              Bin Magnitude: 0.473034
+              ---
+              Bin: 5
+              Bin Center Hz: 234.375
+              Bin True Frequency: 443.04
+              Bin Magnitude: 0.927187
+              ---
+              Bin: 6
+              Bin Center Hz: 281.25
+              Bin True Frequency: 441.086
+              Bin Magnitude: 2.13173
+              ---
+              Bin: 7
+              Bin Center Hz: 328.125
+              Bin True Frequency: 440.282
+              Bin Magnitude: 6.80137
+              ---
+              Bin: 8
+              Bin Center Hz: 375
+              Bin True Frequency: 440.027
+              Bin Magnitude: 59.8779
+              ---
+              Bin: 9
+              Bin Center Hz: 421.875
+              Bin True Frequency: 439.994
+              Bin Magnitude: 232.307
+              ---
+              Bin: 10
+              Bin Center Hz: 468.75
+              Bin True Frequency: 440.005
+              Bin Magnitude: 199.708
+              ---
+              Bin: 11
+              Bin Center Hz: 515.625
+              Bin True Frequency: 439.966
+              Bin Magnitude: 29.7208
+              ---
+              Bin: 12
+              Bin Center Hz: 562.5
+              Bin True Frequency: 439.83
+              Bin Magnitude: 5.05218
+              ---
+              Bin: 13
+              Bin Center Hz: 609.375
+              Bin True Frequency: 439.578
+              Bin Magnitude: 1.77241
+              ---
+              Bin: 14
+              Bin Center Hz: 656.25
+              Bin True Frequency: 439.21
+              Bin Magnitude: 0.828722
+              ---
+              Bin: 15
+              Bin Center Hz: 703.125
+              Bin True Frequency: 438.731
+              Bin Magnitude: 0.455199
+              ---
+              Bin: 16
+              Bin Center Hz: 750
+              Bin True Frequency: 438.153
+              Bin Magnitude: 0.277541
+              ---
+              Bin: 17
+              Bin Center Hz: 796.875
+              Bin True Frequency: 437.49
+              Bin Magnitude: 0.182136
+              ---
+            </code>
+          </pre>
+
 
       </article>
     </div>
