@@ -22,11 +22,11 @@
       <article class="col-md-12 text-left no-pad">
         <ul class="project-nav-icon-wrap">
           {% if prev_post.url %}
-          <li><a  href="{{page.previous.url}}"><img alt="" title="" src="/assets/images/prev-dark.png"/></a></li>
+          <li><a  href="{{prev_post.url}}"><img alt="" title="" src="/assets/images/prev-dark.png"/></a></li>
           {% endif %}
           <li><a  href="works"><span class="ion-ios-grid-view-outline dark"></span></a></li>
           {% if next_post.url %}
-          <li><a  href="{{page.next.url}}"><img alt="" title="" src="/assets/images/next-dark.png"/></a></li>
+          <li><a  href="{{next_post.url}}"><img alt="" title="" src="/assets/images/next-dark.png"/></a></li>
           {% endif %}
         </ul>
       </article>
