@@ -17,23 +17,25 @@ layout: default
   <div id="works-container" class="works-container works-masonry-container clearfix white-bg">
 
     {% for post in posts %}
-    <div class="works-item works-item-full-width">
-      <div class="research-item-card">
-        <div class="valign">
-          <article class="text-center">
-            <h1 class="dark"><span class="font2">{{ post.title }}</span></h1>
-            <br>
-            <p class="dark"><span class="font4">{{ post.description }}</span></p>
-          </article>
-        </div>
-      </div>
-      <a  href="{{ post.url }}">
-          <div class="works-item-inner">
-            <h3 class="color font2">{{ post.title }}</h3>
-            <p><span class="silver font4">{{ post.company }}</span></p>
+      {% if post.published == true %}
+      <div class="works-item works-item-full-width">
+        <div class="research-item-card">
+          <div class="valign">
+            <article class="text-center">
+              <h1 class="dark"><span class="font2">{{ post.title }}</span></h1>
+              <br>
+              <p class="dark"><span class="font4">{{ post.description }}</span></p>
+            </article>
           </div>
-      </a>
-    </div>
+        </div>
+        <a  href="{{ post.url }}">
+            <div class="works-item-inner">
+              <h3 class="color font2">{{ post.title }}</h3>
+              <p><span class="silver font4">{{ post.company }}</span></p>
+            </div>
+        </a>
+      </div>
+      {% endif %}
     {% endfor %}
 
   </div>
